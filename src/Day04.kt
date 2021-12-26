@@ -95,7 +95,7 @@ fun main() {
             drawnNumbers = it.nextLine()
                 .split(",")
                 .filter { s -> s.isNotBlank() }
-                .map { i-> i.toInt() }
+                .map { i -> i.toInt() }
                 .toMutableList()
 
             it.nextLine()

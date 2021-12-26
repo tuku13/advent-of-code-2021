@@ -1,3 +1,5 @@
+import java.lang.Math.max
+import java.lang.Math.min
 import java.util.*
 
 fun main() {
@@ -51,27 +53,59 @@ fun main() {
                         for(i in y1.coerceAtMost(y2)..y1.coerceAtLeast(y2)) {
                             diagram[i][x1] += 1
                         }
-                    } else if (y1 == y2) {
+                        println(row)
+                    }
+                    if (y1 == y2) {
                         for (i in x1.coerceAtMost(x2)..x1.coerceAtLeast(x2)) {
                             diagram[y1][i] += 1
                         }
-                    } else if (x1 == y1 && x2 == y2) {
-                        val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
-                        for(i in 0..length) {
-                            val x = x1.coerceAtMost(x2) + i
-                            val y = y1.coerceAtMost(y2) + i
-                            println("($x; $y)")
-                            diagram[x][y] += 1
+                        println(row)
+                    }
+                    if (x1 == y1 && x2 == y2 ||
+                        (x1.coerceAtLeast(x2) - x1.coerceAtMost(x2) == y1.coerceAtLeast(y2) - y2.coerceAtMost(y1))
+                    ) {
+                        if (x2 > x1 && y2 > y1) { // down-right
+                            val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
+                            for(i in 0..length) {
+                                val x = x1.coerceAtMost(x2) + i
+                                val y = y2.coerceAtMost(y1) + i
+                                diagram[x][y] += 1
+                            }
+                            println(row)
                         }
-                    } else if (x1 == y2 && x2 == y1) {
-                        val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
-                        for(i in 0..length) {
-                            val x = x1.coerceAtLeast(x2) - i
-                            val y = y1.coerceAtMost(y2) + i
-                            println("($x; $y)")
-                            diagram[x][y] += 1
+                        if (x1 > x2 && y1 > y2) { // up-left
+                            val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
+                            for(i in 0..length) {
+                                val x = x1.coerceAtLeast(x2) - i
+                                val y = y1.coerceAtLeast(y2) - i
+                                diagram[x][y] += 1
+                            }
+                            println(row)
                         }
                     }
+                    if (x1 == y2 && y1 == x2 ||
+                        (x1.coerceAtLeast(x2) - x1.coerceAtMost(x2) == y1.coerceAtLeast(y2) - y2.coerceAtMost(y1))
+                    ) {
+                        if (x2 > x1 && y1 > y2) { // up-right
+                            val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
+                            for(i in 0..length) {
+                                val x = x1.coerceAtMost(x2) + i
+                                val y = y1.coerceAtLeast(y2) - i
+                                diagram[x][y] += 1
+                            }
+                            println(row)
+                        }
+                        if (x1 > x2 && y2 > y1) { // down-left
+                            val length = x1.coerceAtLeast(x2) - x1.coerceAtMost(x2)
+                            for(i in 0..length) {
+                                val x = x1.coerceAtLeast(x2) - i
+                                val y = y2.coerceAtMost(y1) + i
+                                diagram[x][y] += 1
+                            }
+                            println(row)
+                        }
+                    }
+
                 } else {
                     if(x1 == x2) {
                         for(i in y1.coerceAtMost(y2)..y1.coerceAtLeast(y2)) {
@@ -120,7 +154,9 @@ fun main() {
         }
 
         val board = HydrothermalBoard(rows, true)
-        println(board)
+        // println(board) // if the input is short
         board.printOverlaps()
     }
+
+    part2()
 }
